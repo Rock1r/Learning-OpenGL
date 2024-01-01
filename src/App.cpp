@@ -43,7 +43,9 @@ int main(void)
     if (glewInit() != GLEW_OK) {
         std::cout << "Error" << "\n";
     }
-
+    int MaxTextureImageUnits;
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &MaxTextureImageUnits);
+    std::cout << "Slots : " << MaxTextureImageUnits << std::endl;
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
         float positions[] = { -0.5f, -0.5f, 0.0f, 0.0f, 0.5f, -0.5f, 1.0f, 0.0f, 0.5f, 0.5f, 1.0f, 1.0f, -0.5f, 0.5f, 0.0f, 1.0f };
