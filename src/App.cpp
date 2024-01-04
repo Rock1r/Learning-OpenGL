@@ -60,28 +60,44 @@ int main(void)
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 440");
 
-        test::TestClearColor test;
+        test::Test* currentTest = nullptr;
+        test::TestMenu* TestMenu = new test::TestMenu(currentTest);
+        currentTest = TestMenu;
+
+        TestMenu->RegisterTest<test::TestClearColor>("Clear Color");
 
         std::cout << glGetString(GL_VERSION) << std::endl;
 
         while (!glfwWindowShouldClose(window))
         {
-            
+            GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
             renderer.Clear();
-
-            test.OnUpdate(0.0f);
-            test.OnRender();
 
             ImGui_ImplGlfw_NewFrame();
             ImGui_ImplOpenGL3_NewFrame();
             ImGui::NewFrame();
-            test.OnImGuiRender();
+            if (currentTest)
+            {
+                currentTest->OnUpdate(0.0f);
+                currentTest->OnRender();
+                ImGui::Begin("test");
+                if (currentTest != TestMenu && ImGui::Button("<-"))
+                {
+                    delete currentTest;
+                    currentTest = TestMenu;
+                }
+                currentTest->OnImGuiRender();
+                ImGui::End();
+            }
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
             glfwSwapBuffers(window);
 
             glfwPollEvents();
         }
+        delete currentTest;
+        if (currentTest != TestMenu)
+            delete TestMenu;
     }
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
