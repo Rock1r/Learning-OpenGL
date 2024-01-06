@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Renderer.h"
+#include "iostream"
 
 class Texture
 {
@@ -18,4 +19,7 @@ public:
 
 	inline int GetWidth() const { return m_Width; }
 	inline int GetHeight() const { return m_Height; }
+
+	unsigned int GetID() const { return m_RendererID; }
+
 };

@@ -7,12 +7,7 @@
 #include <sstream>
 
 #include "Renderer.h"
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "Shader.h"
-#include "Texture.h"
+
 
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
@@ -21,6 +16,7 @@
 #include "imgui\imgui_impl_glfw.h"
 #include "imgui\imgui_impl_opengl3.h"
 #include "tests\TestClearColor.h"
+#include "tests\TestTexture.h"
 
 
 int main(void)
@@ -30,11 +26,11 @@ int main(void)
     if (!glfwInit())
         return -1;
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(1920, 1000, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "Hello World", NULL, NULL);
 
     if (!window)
     {
@@ -65,6 +61,7 @@ int main(void)
         currentTest = TestMenu;
 
         TestMenu->RegisterTest<test::TestClearColor>("Clear Color");
+        TestMenu->RegisterTest<test::TestTexture>("Test Texture");
 
         std::cout << glGetString(GL_VERSION) << std::endl;
 
